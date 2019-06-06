@@ -1,3 +1,4 @@
+/*
 package com.lssjzmn.kilin.boost.redis;
 
 import com.lssjzmn.kilin.boost.utils.util.JSONUtil;
@@ -109,3 +110,4 @@ public class RedisDataService implements IRedisRepository {
 
 
 }
+*/
