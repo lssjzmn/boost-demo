@@ -9,9 +9,14 @@ public class AmqpMessageConverter {
     public static Object convertMsgToObject(Message message, Class clazz) {
         byte[] messageBytes = message.getBody();
         String messageJsonStr = new String(messageBytes);
-        JSONObject jsonObject = JSON.parseObject(messageJsonStr);
-        Object retObject = JSONObject.toJavaObject(jsonObject, clazz);
-        return retObject;
+        try {
+            JSONObject jsonObject = JSON.parseObject(messageJsonStr);
+            Object retObject = JSONObject.toJavaObject(jsonObject, clazz);
+            return retObject;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
