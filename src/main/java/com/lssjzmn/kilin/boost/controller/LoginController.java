@@ -1,6 +1,10 @@
 package com.lssjzmn.kilin.boost.controller;
 
 import com.lssjzmn.kilin.boost.bo.LoginRet;
+import com.lssjzmn.kilin.boost.dao.LocationPointRepository;
+import com.lssjzmn.kilin.boost.dao.WorkFrameRepository;
+import com.lssjzmn.kilin.boost.entity.RobotLocationPoint;
+import com.lssjzmn.kilin.boost.entity.WorkAxesFrame;
 import com.lssjzmn.kilin.boost.service.AmqpMessageSender;
 import com.lssjzmn.kilin.boost.utils.util.JSONModel;
 import org.slf4j.Logger;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/entry")
@@ -24,6 +29,12 @@ public class LoginController {
 
     @Autowired
     AmqpMessageSender amqpMessageSender;
+
+    @Autowired
+    WorkFrameRepository workFrameRepository;
+
+    @Autowired
+    LocationPointRepository locationPointRepository;
 
     @RequestMapping(value = "/welcome/{id}.html", method = RequestMethod.GET)
     public String login(@PathVariable("id") Integer id, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -47,7 +58,10 @@ public class LoginController {
         loginRet.setStatus("200 OK");
         loginRet.setInfo("login success.");
         loginRet.getBody().put("bofyInfo", 8888);
-        String ret = JSONModel.convertObjectToJSON(loginRet);
+        List<WorkAxesFrame> workAxesFrameList = workFrameRepository.findAll();
+        List<RobotLocationPoint> locationPointList = locationPointRepository.findAll();
+        List<RobotLocationPoint> locationPointList2 = (List<RobotLocationPoint>) locationPointRepository.findByIdGreaterThan(10010);
+        String ret = JSONModel.convertObjectToJSON(locationPointList2);
         return ret;
     }
 
