@@ -1,7 +1,6 @@
 package com.lssjzmn.kilin.boost.dao;
 
 import com.lssjzmn.kilin.boost.entity.DataEntity;
-import com.sun.istack.internal.Nullable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +13,7 @@ public interface DataRepository extends PagingAndSortingRepository<DataEntity, I
 
     Iterable<DataEntity> findByContentIsNot(String content);
 
-    @Nullable
+    @javax.annotation.Nullable
     DataEntity findTopByContentEndsWith(String content);
 
     Integer countByContent(String content);

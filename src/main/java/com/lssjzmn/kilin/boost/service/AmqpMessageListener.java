@@ -13,7 +13,8 @@ public class AmqpMessageListener implements ChannelAwareMessageListener {
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
         LoginRet loginRet = (LoginRet) AmqpMessageConverter.convertMsgToObject(message, LoginRet.class);
-        System.out.println("loginRet message: " + loginRet.getInfo());
+        if (loginRet != null)
+            System.out.println("loginRet message: " + loginRet.getInfo());
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
 }

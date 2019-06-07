@@ -45,7 +45,6 @@ public class DataEntityService {
         return dataRepository.findOne(id);
     }
 
-    /*getAll方法不加缓存900+ms，加了缓存20+ms*/
     @Cacheable(value = "dataEntityCaches")
     public Iterable<DataEntity> getAllCache() {
         return dataRepository.findAll();
@@ -64,7 +63,7 @@ public class DataEntityService {
         return dataRepository.findByContentEquals(content);
     }
 
-    /*getContentContains方法不加缓存110ms，加了缓存20ms*/
+
     @Cacheable
     public Iterable<DataEntity> getContentCacheContains(String content) {
         return dataRepository.findByContentContains(content);
