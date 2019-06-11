@@ -28,7 +28,6 @@ hs_err_pid*
 /bin/
 */test/
 
-log/
 #工程文件
 target/
 boost.iml
