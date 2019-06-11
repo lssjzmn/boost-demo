@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/boost-server/boost.iml" filepath="$PROJECT_DIR$/boost-server/boost.iml" />
+      <module fileurl="file://$PROJECT_DIR$/boost-client/boost-client.iml" filepath="$PROJECT_DIR$/boost-client/boost-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/boost-provider/boost-provider.iml" filepath="$PROJECT_DIR$/boost-provider/boost-provider.iml" />
+    </modules>
+  </component>
+</project>
