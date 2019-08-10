@@ -42,4 +42,14 @@ public class LoginRet implements Serializable {
     public void setBody(Map<String, Object> body) {
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "LoginRet{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", info='" + info + '\'' +
+                ", body=" + body +
+                '}';
+    }
 }
