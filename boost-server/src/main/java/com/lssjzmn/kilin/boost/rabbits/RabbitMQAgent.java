@@ -1,9 +1,7 @@
 package com.lssjzmn.kilin.boost.rabbits;
 
 import com.lssjzmn.kilin.boost.bo.LoginRet;
-import com.rabbitmq.client.BuiltinExchangeType;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.*;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +34,14 @@ public class RabbitMQAgent {
     public void initMQConnection() {
         try {
             sendConnection = AmqpConnectionUtil.getConnection();
+            sendConnection.addBlockedListener(new ConnBlockedListener());
+            sendConnection.addShutdownListener(new ConnShutdownListener());
             sendChannel = sendConnection.createChannel();
             sendChannel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT, true);
 
             receiveConnection = AmqpConnectionUtil.getConnection();
+            receiveConnection.addBlockedListener(new ConnBlockedListener());
+            receiveConnection.addShutdownListener(new ConnShutdownListener());
             addConsumer(EXCHANGE_NAME, QUEUE_NAME, ROUTING_KEY_NAME, "FIRST");
             addConsumer(EXCHANGE_NAME, QUEUE_NAME, ROUTING_KEY_NAME, "SECOND");
             addConsumer(EXCHANGE_NAME, QUEUE_NAME, ROUTING_KEY_NAME, "THIRD");
@@ -59,7 +61,26 @@ public class RabbitMQAgent {
         receiveChannel.basicConsume(queueName, false, workConsumer);
     }
 
-    @Scheduled(fixedRate = 200)
+    class ConnBlockedListener implements BlockedListener {
+        @Override
+        public void handleBlocked(String reason) throws IOException {
+
+        }
+
+        @Override
+        public void handleUnblocked() throws IOException {
+
+        }
+    }
+
+    class ConnShutdownListener implements ShutdownListener {
+        @Override
+        public void shutdownCompleted(ShutdownSignalException cause) {
+
+        }
+    }
+
+    @Scheduled(fixedRate = 20)
     public void sendMessage() {
         try {
             LoginRet ret = new LoginRet();
@@ -70,7 +91,7 @@ public class RabbitMQAgent {
             JSONObject jsonObject = JSONObject.fromObject(ret);
             byte[] message = jsonObject.toString().getBytes("UTF-8");
             sendChannel.basicPublish(EXCHANGE_NAME, ROUTING_KEY_NAME, false, null, message);
-            //logger.info("** send msg:" + jsonObject.toString());
+            logger.info("** message count:" + sendChannel.messageCount(QUEUE_NAME));
         } catch (IOException e) {
             e.printStackTrace();
         }
